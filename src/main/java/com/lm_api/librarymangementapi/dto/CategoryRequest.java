@@ -1,0 +1,12 @@
+package com.lm_api.librarymangementapi.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+
+public record CategoryRequest(
+        @NotBlank(message = "title cannot be null")
+        @Size(max = 40,min = 5,message = "title must be between 5 to 40 characters")
+        String name
+         ) {
+}

@@ -1,0 +1,14 @@
+package com.lm_api.librarymangementapi.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record UserRequest(
+        @NotBlank(message = "name cannot be null")
+        @Size(max = 20,min = 5,message = "title must be between 5 to 20 characters")
+        String name,
+
+         @Email
+         String email) {
+}
