@@ -2,7 +2,9 @@ package com.lm_api.librarymangementapi.dto;
 
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
+@Builder
 public record LoanRequest(
         @NotNull(message = "user id is compulsory")
         Long userId,
