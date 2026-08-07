@@ -1,0 +1,75 @@
+package com.lm_api.librarymangementapi.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lm_api.librarymangementapi.dto.CategoryRequest;
+import com.lm_api.librarymangementapi.entities.CategoryEntity;
+import com.lm_api.librarymangementapi.service.CategoryService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(CategoryController.class)
+class CategoryControllerTest {
+    public static final String NAME="Programming";
+    public static final Long C_Id=4L;
+    public static final Long COUNT=9L;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    private final ObjectMapper objectMapper=new ObjectMapper();
+
+    @MockitoBean
+    private CategoryService categoryService;
+
+    @Test
+    public void method_should_return_category() throws Exception{
+        CategoryRequest categoryRequest= CategoryRequest.builder().name(NAME).build();
+
+        CategoryEntity categoryResponse=CategoryEntity.builder().
+                id(C_Id).name(NAME).book_count(COUNT).build();
+
+        when(categoryService.categoryCreation(categoryRequest)).thenReturn(categoryResponse);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/categories")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(categoryRequest)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Category Record created successfully"))
+                .andExpect(jsonPath("$.data.id").value(C_Id))
+                .andExpect(jsonPath("$.data.name").value(NAME))
+                .andExpect(jsonPath("$.data.book_count").value(COUNT));
+
+
+
+
+    }
+    @Test
+    public void method_should_return_categoryIdResponse() throws Exception{
+        CategoryEntity categoryResponse=CategoryEntity.builder().
+                id(C_Id).name(NAME).book_count(COUNT).build();
+
+        when(categoryService.getCategoryById(C_Id)).thenReturn(categoryResponse);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/categories/"+C_Id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(categoryResponse)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Category Record fetched successfully"))
+                .andExpect(jsonPath("$.data.id").value(C_Id))
+                .andExpect(jsonPath("$.data.name").value(NAME))
+                .andExpect(jsonPath("$.data.book_count").value(COUNT));
+
+
+
+
+    }
+}

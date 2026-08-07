@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BookController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.lm_api.librarymangementapi.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: BookController (com.lm_api.librarymangementapi.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BookController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (4/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (14/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.lm_api.librarymangementapi.controller;
+&nbsp;
+&nbsp;import com.lm_api.librarymangementapi.dto.ApiResponse;
+&nbsp;import com.lm_api.librarymangementapi.dto.BookRequest;
+&nbsp;import com.lm_api.librarymangementapi.dto.BookResponse;
+&nbsp;import com.lm_api.librarymangementapi.service.BookService;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/v1/books&quot;)
+&nbsp;public class BookController {
+&nbsp;    private final BookService bookService;
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public BookController(final BookService bookService){</b>
+<b class="fc">&nbsp;        this.bookService=bookService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get a book by ID&quot;)    @GetMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;BookResponse&gt; &gt;getById(@PathVariable Long id){
+<b class="fc">&nbsp;        BookResponse book=bookService.getBookById(id);</b>
+<b class="fc">&nbsp;        ApiResponse&lt;BookResponse&gt; response= ApiResponse.&lt;BookResponse&gt;builder().</b>
+<b class="fc">&nbsp;        success(true).message(&quot;record fetched successfully&quot;).data(book).build();</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get all books&quot;)    @GetMapping
+&nbsp;    public Page&lt;BookResponse&gt; getAll(Pageable pageable){
+<b class="nc">&nbsp;        return bookService.getAllBooks(pageable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get books by status&quot;)    @GetMapping(&quot;/status&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;List&lt;BookResponse&gt;&gt;&gt; getByStatus(@RequestParam String status){
+<b class="fc">&nbsp;        List&lt;BookResponse&gt; bookResponses=bookService.getBookByStatus(status);</b>
+<b class="fc">&nbsp;        ApiResponse&lt;List&lt;BookResponse&gt;&gt; response= ApiResponse.&lt;List&lt;BookResponse&gt;&gt;builder().</b>
+<b class="fc">&nbsp;                success(true).message(&quot;record fetched successfully by status&quot;).data(bookResponses).build();</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get books by title&quot;)    @GetMapping(&quot;/title&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;List&lt;BookResponse&gt;&gt;&gt; getByTitle(@RequestParam String title){
+<b class="nc">&nbsp;        List&lt;BookResponse&gt; bookResponses=bookService.getBookByTitle(title);</b>
+<b class="nc">&nbsp;        ApiResponse&lt;List&lt;BookResponse&gt;&gt; response= ApiResponse.&lt;List&lt;BookResponse&gt;&gt;builder().</b>
+<b class="nc">&nbsp;                success(true).message(&quot;record fetched successfully by title&quot;).data(bookResponses).build();</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get books by author&quot;)    @GetMapping(&quot;/author&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;List&lt;BookResponse&gt;&gt;&gt; getByAuthor(@RequestParam String author){
+<b class="nc">&nbsp;        List&lt;BookResponse&gt; bookResponses= bookService.getBookByAuthor(author);</b>
+<b class="nc">&nbsp;        ApiResponse&lt;List&lt;BookResponse&gt;&gt; response= ApiResponse.&lt;List&lt;BookResponse&gt;&gt;builder().</b>
+<b class="nc">&nbsp;                success(true).message(&quot;record fetched successfully by author&quot;).data(bookResponses).build();</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get books by category&quot;)    @GetMapping(&quot;/category/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;List&lt;BookResponse&gt;&gt;&gt; getByCategory(@PathVariable Long id){
+<b class="nc">&nbsp;        List&lt;BookResponse&gt; bookResponses= bookService.getByCategoryId(id);</b>
+<b class="nc">&nbsp;        ApiResponse&lt;List&lt;BookResponse&gt;&gt; response= ApiResponse.&lt;List&lt;BookResponse&gt;&gt;builder().</b>
+<b class="nc">&nbsp;                success(true).message(&quot;record fetched successfully by category id&quot;).data(bookResponses).build();</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create a new book&quot;)    @PostMapping
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;BookResponse&gt;&gt; createBook(@Valid @RequestBody BookRequest bookRequest){
+<b class="fc">&nbsp;        BookResponse bookResponse= bookService.bookCreation(bookRequest);</b>
+<b class="fc">&nbsp;        ApiResponse&lt;BookResponse&gt; response= ApiResponse.&lt;BookResponse&gt;builder().</b>
+<b class="fc">&nbsp;        success(true).message(&quot;book record created successfully&quot;).data(bookResponse).build();</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).body(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Update a book&quot;)    @PutMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;BookResponse&gt;&gt; updateBook(@PathVariable Long id,@Valid @RequestBody BookRequest bookRequest){
+<b class="nc">&nbsp;        BookResponse bookResponse= bookService.bookUpdation(id,bookRequest);</b>
+<b class="nc">&nbsp;        ApiResponse&lt;BookResponse&gt; response= ApiResponse.&lt;BookResponse&gt;builder().</b>
+<b class="nc">&nbsp;                success(true).message(&quot;Book record updated successfully&quot;).data(bookResponse).build();</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Delete a book&quot;)    @DeleteMapping(&quot;/{id}&quot;)
+&nbsp;    public ResponseEntity&lt;ApiResponse&lt;BookResponse&gt;&gt; delBook(@PathVariable Long id){
+<b class="nc">&nbsp;        BookResponse bookResponse= bookService.bookDeletion(id);</b>
+<b class="nc">&nbsp;        ApiResponse&lt;BookResponse&gt; response= ApiResponse.&lt;BookResponse&gt;builder().</b>
+<b class="nc">&nbsp;                success(true).message(&quot;Book record deleted successfully&quot;).data(bookResponse).build();</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-08-07 20:43</div>
+</div>
+</body>
+</html>
