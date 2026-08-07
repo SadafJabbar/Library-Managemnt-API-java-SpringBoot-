@@ -1,57 +1,137 @@
 # Library Management API
 
-A RESTful Library Management API built with Spring Boot to manage books, users, categories, and loans. This project was created to practice backend development using Spring Boot, Spring Data JPA, MySQL, and REST API design.
-
-## Features
-
-- Manage books (Create, Read, Update, Delete)
-- Manage users
-- Manage categories
-- Issue and return books
-- Search books by title, author, category, and status
-- Pagination and sorting
-- Input validation
-- Global exception handling
-- Custom API response wrapper
-- Swagger/OpenAPI documentation
+A RESTful Library Management API built using Spring Boot.  
+The application manages books, categories, users, and loans with MySQL database integration.
 
 ## Technologies Used
 
 - Java 21
 - Spring Boot
-- Spring Data JPA
+- Spring Web MVC
+- Spring Data JPA / Hibernate
 - MySQL
-- Hibernate
+- Docker
 - Maven
-- Lombok
-- Swagger (OpenAPI)
+- JUnit 5
+- Mockito
+- JaCoCo
 
-## Running the Project
+## Features
 
-1. Clone the repository.
-2. Create a MySQL database named:
+- Manage books
+- Manage categories
+- Manage users
+- Manage loans
+- CRUD operations
+- DTO pattern
+- Exception handling
+- Validation
+- MySQL database integration
+- Unit testing
+- Controller testing
+- Integration testing
+- Code coverage with JaCoCo
+
+## Project Structure
 
 ```
-library_db
+controller
+service
+repository
+entity
+dto
+mapper
+exception
+integration tests
 ```
 
-3. Update your database username and password in `application.properties`.
-4. Run the application.
+## Database Configuration
 
-The application starts on:
+The application uses MySQL as the database.
+
+Database connection details are configured through application properties and should be provided according to the local environment.
+
+Example:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/librarydb
+spring.datasource.username=<username>
+spring.datasource.password=<password>
+```
+
+## Running the Application
+
+### Clone the repository
+
+```bash
+git clone <repository-url>
+```
+
+### Start MySQL using Docker
+
+Create a MySQL container with your own database credentials:
+
+```bash
+docker run --name mysql-docker \
+-e MYSQL_ROOT_PASSWORD=<your-password> \
+-e MYSQL_DATABASE=librarydb \
+-p 3306:3306 \
+-d mysql
+```
+
+### Run the application
+
+Using Maven:
+
+```bash
+./mvnw spring-boot:run
+```
+
+The application will start at:
 
 ```
 http://localhost:8080
 ```
 
-## API Documentation
+## Testing
 
-Swagger UI:
+Run all tests:
+
+```bash
+./mvnw clean test
+```
+
+The project includes:
+
+- Unit tests
+- Controller tests
+- Integration tests
+
+## Code Coverage
+
+JaCoCo is configured to generate test coverage reports.
+
+Generate the report:
+
+```bash
+./mvnw clean test
+```
+
+The report can be found at:
 
 ```
-http://localhost:8080/swagger-ui/index.html
+target/site/jacoco/index.html
 ```
 
+## API Endpoints
+
+Example endpoints:
+
+```
+GET    /api/v1/books
+POST   /api/v1/books
+PUT    /api/v1/books/{id}
+DELETE /api/v1/books/{id}
+```
 ## Author
-
 Sadaf Jabbar
