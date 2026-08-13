@@ -7,14 +7,21 @@ import com.lm_api.librarymangementapi.service.LoanService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(LoanController.class)
 class LoanControllerTest {
@@ -57,12 +64,45 @@ class LoanControllerTest {
 
         when(loanService.getLoanById(L_ID)).thenReturn(loanResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/loans/"+L_ID)
+        mockMvc.perform(get("/api/v1/loans/"+L_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loanResponse)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Loan record fetched successfully"))
+                .andExpect(jsonPath("$.data.id").value(L_ID))
+                .andExpect(jsonPath("$.data.UserId").value(U_ID))
+                .andExpect(jsonPath("$.data.bookId").value(B_ID));
+
+    }
+    @Test
+    public void method_should_return_allLoans() throws Exception{
+        LoanResponse loanResponse=LoanResponse.builder().id(L_ID)
+                .UserId(U_ID).bookId(B_ID).build();
+
+        Page<LoanResponse> page=new PageImpl<>(List.of(loanResponse));
+        when(loanService.getAllLoans(any(Pageable.class))).thenReturn(page);
+
+        mockMvc.perform(get("/api/v1/loans"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content[0].id").value(L_ID))
+                .andExpect(jsonPath("$.content[0].UserId").value(U_ID))
+                .andExpect(jsonPath("$.content[0].bookId").value(B_ID));
+
+    }
+
+    @Test
+    public void method_should_return_deletedLoan() throws Exception{
+        LoanResponse loanResponse=LoanResponse.builder().id(L_ID)
+                .UserId(U_ID).bookId(B_ID).build();
+
+        when(loanService.loanDeletion(L_ID)).thenReturn(loanResponse);
+
+        mockMvc.perform(delete("/api/v1/loans/"+L_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("Loan record deleted successfully"))
                 .andExpect(jsonPath("$.data.id").value(L_ID))
                 .andExpect(jsonPath("$.data.UserId").value(U_ID))
                 .andExpect(jsonPath("$.data.bookId").value(B_ID));

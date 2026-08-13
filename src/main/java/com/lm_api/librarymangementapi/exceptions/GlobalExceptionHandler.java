@@ -1,5 +1,4 @@
 package com.lm_api.librarymangementapi.exceptions;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -23,37 +22,37 @@ public class GlobalExceptionHandler {
         map.put("timestamp",LocalDateTime.now());
         map.put("message",ex.getMessage());
         map.put("status",HttpStatus.NOT_FOUND.value());
-        map.put("path",webRequest.getDescription(false).replace("uri= "," "));
+        map.put("path",webRequest.getDescription(false).replace("uri= ",""));
         return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String,Object>> userNotFound(UserNotFoundException ex,WebRequest webRequest){
         Map<String,Object> map=new HashMap<>();
-        map.put("timestamp:",LocalDateTime.now());
+        map.put("timestamp",LocalDateTime.now());
         map.put("message",ex.getMessage());
         map.put("status",HttpStatus.NOT_FOUND.value());
-        map.put("path",webRequest.getDescription(false).replace("uri="," "));
+        map.put("path",webRequest.getDescription(false).replace("uri=",""));
         return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(LoanNotFoundException.class)
     public ResponseEntity<Map<String,Object>> loanNotFound(LoanNotFoundException ex,WebRequest webRequest){
         Map<String,Object> map=new HashMap<>();
-        map.put("timestamp:",LocalDateTime.now());
+        map.put("timestamp",LocalDateTime.now());
         map.put("message",ex.getMessage());
         map.put("status",HttpStatus.NOT_FOUND.value());
-        map.put("path",webRequest.getDescription(false).replace("uri="," "));
+        map.put("path",webRequest.getDescription(false).replace("uri=",""));
         return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<Map<String,Object>> CategoryNotFound(CategoryNotFoundException ex,WebRequest webRequest){
+    public ResponseEntity<Map<String,Object>> categoryNotFound(CategoryNotFoundException ex,WebRequest webRequest){
         Map<String,Object> map=new HashMap<>();
-        map.put("timestamp:",LocalDateTime.now());
+        map.put("timestamp",LocalDateTime.now());
         map.put("message",ex.getMessage());
         map.put("status",HttpStatus.NOT_FOUND.value());
-        map.put("path",webRequest.getDescription(false).replace("uri="," "));
+        map.put("path",webRequest.getDescription(false).replace("uri=",""));
         return new ResponseEntity<>(map,HttpStatus.NOT_FOUND);
     }
 
@@ -68,7 +67,7 @@ public class GlobalExceptionHandler {
         map.put("message","validation failed" );
         map.put("status",HttpStatus.BAD_REQUEST.value());
         map.put("errors",errors);
-        map.put("path",webRequest.getDescription(false).replace("uri="," "));
+        map.put("path",webRequest.getDescription(false).replace("uri=",""));
         return  new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 
@@ -78,7 +77,7 @@ public class GlobalExceptionHandler {
         map.put("timestamp", LocalDateTime.now() );
         map.put("message",ex.getMessage() );
         map.put("status",HttpStatus.INTERNAL_SERVER_ERROR.value());
-        map.put("path",webRequest.getDescription(false).replace("uri="," "));
+        map.put("path",webRequest.getDescription(false).replace("uri=",""));
         return  new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -12,5 +12,6 @@ public record UserRequest(
         String name,
 
          @Email
+         @NotBlank(message = "please enter a valid email address")
          String email) {
 }

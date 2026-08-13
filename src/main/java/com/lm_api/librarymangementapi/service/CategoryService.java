@@ -23,7 +23,8 @@ public class CategoryService {
     }
 
     public CategoryEntity getCategoryById(Long id){
-         return categoryRepository.findById(id).orElseThrow(()-> new CategoryNotFoundException(id));
+         CategoryEntity category= categoryRepository.findById(id).orElseThrow(()-> new CategoryNotFoundException(id));
+         return category;
             }
 
 
