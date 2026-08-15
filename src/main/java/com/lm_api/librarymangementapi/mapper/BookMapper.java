@@ -55,7 +55,7 @@ public class BookMapper {
         book.setStatus(book.getStatus());
         book.setStock(bookRequest.stock());
         book.setPublishedYear(bookRequest.publishedYear());
-        if (bookRequest != null & bookRequest.categoryId() != null) {
+        if (bookRequest != null && bookRequest.categoryId() != null) {
             book.setCategory(categoryService.getCategoryById(bookRequest.categoryId()));
         }
         return book;
