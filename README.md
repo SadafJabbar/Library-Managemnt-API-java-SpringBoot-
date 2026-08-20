@@ -1,7 +1,6 @@
 # Library Management API
 
-A RESTful Library Management API built using **Java and Spring Boot**.
-The application manages books, categories, users, and loans with MySQL database integration.
+A RESTful Library Management API built using **Java and Spring Boot**. The application manages books, categories, users, and loans with MySQL database integration.
 
 ## Technologies Used
 
@@ -149,11 +148,4 @@ DELETE /api/v1/books/{id}
 
 ## Author
 
-Sadaf Jabbar
-1/books
-POST   /api/v1/books
-PUT    /api/v1/books/{id}
-DELETE /api/v1/books/{id}
-```
-## Author
 Sadaf Jabbar
