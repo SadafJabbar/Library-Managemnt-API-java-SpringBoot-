@@ -1,40 +1,42 @@
 # Library Management API
 
-A RESTful Library Management API built using Spring Boot.  
+A RESTful Library Management API built using **Java and Spring Boot**.
 The application manages books, categories, users, and loans with MySQL database integration.
 
 ## Technologies Used
 
-- Java 21
-- Spring Boot
-- Spring Web MVC
-- Spring Data JPA / Hibernate
-- MySQL
-- Docker
-- Maven
-- JUnit 5
-- Mockito
-- JaCoCo
+* Java 21
+* Spring Boot
+* Spring Web MVC
+* Spring Data JPA / Hibernate
+* MySQL
+* Docker
+* Maven
+* JUnit 5
+* Mockito
+* JaCoCo
+* Spring AOP
 
 ## Features
 
-- Manage books
-- Manage categories
-- Manage users
-- Manage loans
-- CRUD operations
-- DTO pattern
-- Exception handling
-- Validation
-- MySQL database integration
-- Unit testing
-- Controller testing
-- Integration testing
-- Code coverage with JaCoCo
+* Manage books
+* Manage categories
+* Manage users
+* Manage loans
+* CRUD operations
+* DTO pattern
+* Exception handling
+* Request validation
+* MySQL database integration
+* Aspect-Oriented Programming (AOP)
+* Unit testing
+* Controller testing
+* Integration testing
+* Code coverage with JaCoCo
 
 ## Project Structure
 
-```
+```text
 controller
 service
 repository
@@ -42,6 +44,7 @@ entity
 dto
 mapper
 exception
+aspect
 integration tests
 ```
 
@@ -89,23 +92,27 @@ Using Maven:
 
 The application will start at:
 
-```
+```text
 http://localhost:8080
 ```
 
 ## Testing
 
-Run all tests:
+The project includes automated tests for the application's main layers.
+
+Completed testing includes:
+
+* Controller tests
+* Mapper tests
+* Integration tests
+
+Service-layer unit tests are the remaining tests to be completed.
+
+Run the existing tests with:
 
 ```bash
 ./mvnw clean test
 ```
-
-The project includes:
-
-- Unit tests
-- Controller tests
-- Integration tests
 
 ## Code Coverage
 
@@ -119,16 +126,31 @@ Generate the report:
 
 The report can be found at:
 
-```
+```text
 target/site/jacoco/index.html
 ```
 
+## Aspect-Oriented Programming
+
+Spring AOP is used to separate cross-cutting concerns from the main application logic.
+
+The project includes an `aspect` layer for handling concerns that can be applied across multiple parts of the application.
+
 ## API Endpoints
 
-Example endpoints:
+Example book endpoints:
 
-```
+```text
 GET    /api/v1/books
+POST   /api/v1/books
+PUT    /api/v1/books/{id}
+DELETE /api/v1/books/{id}
+```
+
+## Author
+
+Sadaf Jabbar
+1/books
 POST   /api/v1/books
 PUT    /api/v1/books/{id}
 DELETE /api/v1/books/{id}
