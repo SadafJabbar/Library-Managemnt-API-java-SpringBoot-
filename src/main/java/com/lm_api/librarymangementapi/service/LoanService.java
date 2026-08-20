@@ -1,5 +1,6 @@
 package com.lm_api.librarymangementapi.service;
 
+import com.lm_api.librarymangementapi.annotation.TrackExecution;
 import com.lm_api.librarymangementapi.dto.LoanRequest;
 import com.lm_api.librarymangementapi.dto.LoanResponse;
 import com.lm_api.librarymangementapi.entities.BookEntity;
@@ -33,12 +34,14 @@ public class LoanService {
     }
 
 
+    @TrackExecution
     public LoanResponse getLoanById(Long id){
         LoanEntity loan=loanRepository.findById(id).orElseThrow(()-> new LoanNotFoundException(id));
         return loanMapper.transformToLoanResponse(loan);
     }
 
 
+    @TrackExecution
      public Page<LoanResponse> getAllLoans(Pageable pageable){
         return loanRepository.findAll(pageable).map(loanMapper::transformToLoanResponse);
         }

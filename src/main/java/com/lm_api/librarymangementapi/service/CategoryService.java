@@ -1,5 +1,6 @@
 package com.lm_api.librarymangementapi.service;
 
+import com.lm_api.librarymangementapi.annotation.TrackExecution;
 import com.lm_api.librarymangementapi.dto.CategoryRequest;
 import com.lm_api.librarymangementapi.entities.CategoryEntity;
 import com.lm_api.librarymangementapi.exceptions.CategoryNotFoundException;
@@ -22,13 +23,14 @@ public class CategoryService {
         this.bookRepository=bookRepository;
     }
 
+    @TrackExecution
     public CategoryEntity getCategoryById(Long id){
          CategoryEntity category= categoryRepository.findById(id).orElseThrow(()-> new CategoryNotFoundException(id));
          return category;
             }
 
 
-
+    @TrackExecution
     public Page<CategoryEntity> getAllCategories(Pageable pageable){
         return categoryRepository.findAll(pageable);
     }

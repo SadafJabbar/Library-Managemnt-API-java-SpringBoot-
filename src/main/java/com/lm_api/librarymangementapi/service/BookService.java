@@ -1,5 +1,6 @@
 package com.lm_api.librarymangementapi.service;
 
+import com.lm_api.librarymangementapi.annotation.TrackExecution;
 import com.lm_api.librarymangementapi.dto.BookRequest;
 import com.lm_api.librarymangementapi.dto.BookResponse;
 import com.lm_api.librarymangementapi.entities.BookEntity;
@@ -29,17 +30,20 @@ public class BookService {
         this.categoryRepository=categoryRepository;
     }
 
+    @TrackExecution
     public BookResponse getBookById(Long id){
         BookEntity bookEntity=bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException(id));
         return bookMapper.transformToBookResponse(bookEntity);
     }
 
+    @TrackExecution
     public Page<BookResponse> getAllBooks(Pageable pageable) {
         return bookRepository.findAll(pageable)
                 .map(bookMapper::transformToBookResponse);
     }
 
 
+    @TrackExecution
     public List<BookResponse> getBookByStatus(String status){
         List<BookResponse> responses=new ArrayList<>();
         for(BookEntity book:bookRepository.findAllByStatusContainingIgnoreCase(status)){
@@ -49,6 +53,7 @@ public class BookService {
     }
 
 
+    @TrackExecution
     public List<BookResponse> getBookByTitle(String title){
         List<BookResponse> responses=new ArrayList<>();
         for(BookEntity book:bookRepository.findAllByTitleContainingIgnoreCase(title)){
@@ -57,6 +62,7 @@ public class BookService {
     }
 
 
+    @TrackExecution
     public List<BookResponse> getBookByAuthor(String author){
         List<BookResponse> responses=new ArrayList<>();
         for(BookEntity book:bookRepository.findAllByAuthorContainingIgnoreCase(author)){
@@ -65,6 +71,7 @@ public class BookService {
     }
 
 
+    @TrackExecution
     public List<BookResponse> getByCategoryId(Long id){
         List<BookResponse> responses=new ArrayList<>();
         for(BookEntity book:bookRepository.findAllByCategoryId(id)){

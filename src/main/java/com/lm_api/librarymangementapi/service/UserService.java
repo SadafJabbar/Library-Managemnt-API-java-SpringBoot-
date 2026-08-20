@@ -1,5 +1,6 @@
 package com.lm_api.librarymangementapi.service;
 
+import com.lm_api.librarymangementapi.annotation.TrackExecution;
 import com.lm_api.librarymangementapi.dto.UserRequest;
 import com.lm_api.librarymangementapi.dto.UserResponse;
 import com.lm_api.librarymangementapi.entities.UserEntity;
@@ -28,17 +29,20 @@ public class UserService {
     }
 
 
+    @TrackExecution
     public UserResponse getUserById(Long id){
         UserEntity user=userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
         return userMapper.transformToUserResponse(user);
     }
 
+    @TrackExecution
     public Page<UserResponse> getAllUsers(Pageable pageable){
         return   userRepository.findAll(pageable).map(userMapper::transformToUserResponse);
     }
 
 
 
+    @TrackExecution
     public List<UserResponse>   getUserByName(String name){
         List<UserResponse> userResponses=new ArrayList<>();
         for(UserEntity user:userRepository.findByNameContainingIgnoreCase(name)) {
